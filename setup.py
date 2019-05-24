@@ -7,10 +7,10 @@ The build/compilations setup
 import pip
 import logging
 import pkg_resources
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+#try:
+#    from setuptools import setup
+#except ImportError:
+from distutils.core import setup
 
 
 def _parse_requirements(file_path):

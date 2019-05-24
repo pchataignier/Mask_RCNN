@@ -1830,12 +1830,13 @@ class MaskRCNN():
         config: A Sub-class of the Config class
         model_dir: Directory to save training logs and trained weights
         """
-        assert mode in ['training', 'inference']
+        assert mode in ['training', 'inference', 'nobuild']
         self.mode = mode
         self.config = config
         self.model_dir = model_dir
         self.set_log_dir()
-        self.keras_model = self.build(mode=mode, config=config)
+        if not mode == 'nobuild':
+            self.keras_model = self.build(mode=mode, config=config)
 
     def build(self, mode, config):
         """Build Mask R-CNN architecture.
@@ -2058,7 +2059,7 @@ class MaskRCNN():
                              name='mask_rcnn')
 
         # Add multi-GPU support.
-        if config.GPU_COUNT > 1:
+        if config.GPU_COUNT >= 1:
             from mrcnn.parallel_model import ParallelModel
             model = ParallelModel(model, config.GPU_COUNT)
 
